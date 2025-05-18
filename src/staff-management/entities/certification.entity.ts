@@ -18,7 +18,7 @@ export class Certification {
     @Column({})
     licenseNumber?: string;
 
-    //@ManyToOne((type) => Staff, staff => staff.certifications)
-    //@JoinColumn({name: 'staffId', referencedColumnName: 'staffId'})
-    //staff: Staff;
+    @ManyToOne((type) => Staff, staff => staff.certifications)
+    @JoinColumn({name: 'staffId', referencedColumnName: 'staffId'})
+    staff: Staff;
 }

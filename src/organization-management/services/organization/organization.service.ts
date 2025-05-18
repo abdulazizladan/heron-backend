@@ -25,4 +25,16 @@ export class OrganizationService {
               }
         }
     }
+
+    async addDepartment(){
+        try{
+            //const department = new Department();
+        } catch (error) {
+            return {
+                success: false,
+                data: null,
+                message: error
+            }
+        }
+    }
 }

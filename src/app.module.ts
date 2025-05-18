@@ -4,6 +4,7 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { OrganizationManagementModule } from './organization-management/organization-management.module';
 import { StaffModule } from './staff-management/staff.module';
+import { PayrollModule } from './payroll/payroll.module';
 
 @Module({
   imports: [
@@ -15,6 +16,7 @@ import { StaffModule } from './staff-management/staff.module';
     }),
     StaffModule,
     OrganizationManagementModule,
+    PayrollModule,
   ],
   controllers: [AppController],
   providers: [AppService],

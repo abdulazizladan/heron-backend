@@ -37,6 +37,6 @@ export class StaffController {
   @ApiOperation({description: 'Delete a staff record by ID', summary: 'Delete a staff record by ID'})
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.staffService.remove(+id);
+    return this.staffService.remove(id);
   }
 }

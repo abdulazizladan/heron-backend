@@ -6,13 +6,14 @@ import { MaritalStatus } from "../enums/marital-status.enum";
 import { Religion } from "../enums/religion.enum";
 import { Status } from "../enums/status";
 import { Employment } from "./employment.entity";
+import { Education } from "./education.entity";
+import { Certification } from "./certification.entity";
 import { GradeLevel } from "./grade-level.entity";
 import { Promotion } from "./promotion.entity";
-import { Education } from "./education.entity";
 import { ServiceHistory } from "./service-history.entity";
-import { DisciplinaryRecord } from "./disciplinary-record.entity";
 import { DisciplinaryCase } from "./staff-disciplinary-case.entity";
-import { Certification } from "./certification.entity";
+import { GradeLevelHistory } from "./grade-level-history.entity";
+import { NextOfKin } from "./next-of-kin.entity";
 
 @Entity({name: 'Staff'})
 export class Staff {
@@ -44,10 +45,10 @@ export class Staff {
     maritalStatus: MaritalStatus;
 
     @Column({})
-    stateOfOrigin: string; // Nigerian state
+    stateOfOrigin: string; 
 
     @Column({})
-    lgaOfOrigin: string; // Local Government Area
+    lgaOfOrigin: string;
 
     @Column({default: "Nigerian"})
     nationality: string;
@@ -85,22 +86,30 @@ export class Staff {
     @OneToMany(() => Employment, employment => employment.staff)
     employment: Employment[];
 
-    /** 
-    @OneToOne((type) => GradeLevel, gradeLevel => gradeLevel.staff)
-    gradeLevel: GradeLevel;
+    @OneToMany((type) => Certification, certification => certification.staff, {cascade: true})
+    certifications: Certification[];
 
     @OneToMany((type) => Promotion, promotion => promotion.staff)
     promotions: Promotion[];
 
-    
+     
+    @OneToOne((type) => GradeLevel, gradeLevel => gradeLevel.staff)
+    gradeLevel: GradeLevel;
+
+    @OneToMany((type) => GradeLevelHistory, gradeLevelHistory => gradeLevelHistory.staff)
+    gradeLevelHistory: GradeLevelHistory[];
+
+    @OneToMany((type) => DisciplinaryCase, disciplinaryCase => disciplinaryCase.staff)
+    disciplinaryCases: DisciplinaryCase[]; 
+
+    @OneToOne((type) => NextOfKin, nextOfKin => nextOfKin.staff)
+    nextOfKin: NextOfKin;
+
+    /**
 
     @OneToOne((type) => ServiceHistory, serviceHistory => serviceHistory.staff)
     serviceHistory: ServiceHistory;
 
-    @OneToMany((type) => DisciplinaryCase, disciplinaryCase => disciplinaryCase.staff)
-    disciplinaryCases: DisciplinaryCase[]; // Placeholder for discipline history
-
-    @OneToMany((type) => Certification, certification => certification.staff, {cascade: true})
-    certifications: Certification[];
+    
     **/
   }

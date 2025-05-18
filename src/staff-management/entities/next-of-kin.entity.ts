@@ -1,10 +1,27 @@
+import { Column, Entity, JoinColumn, OneToOne, PrimaryGeneratedColumn } from "typeorm";
+import { Staff } from "./staff.entity";
+
+@Entity({name: "StaffNextOfKin"})
 export class NextOfKin {
-    employeeId: string;
-    kins: {
-      name: string;
-      relationship: "Spouse" | "Parent" | "Sibling" | "Child";
-      phone: string;
-      address: string;
-      percentageAllocation?: number; // For benefit distribution
-    }[];
-  }
+  @PrimaryGeneratedColumn()
+  id: number;
+
+  @Column()
+  name: string;
+
+  @Column()
+  relationship: "Spouse" | "Parent" | "Sibling" | "Child";
+
+  @Column()
+  phone: string;
+
+  @Column()
+  address: string;
+
+  //@Column()
+  //percentageAllocation?: number; // For benefit distribution
+
+  @OneToOne((type) => Staff, staff => staff.nextOfKin)
+  @JoinColumn({name: 'staffId', referencedColumnName: 'staffId'})
+  staff: Staff;
+}

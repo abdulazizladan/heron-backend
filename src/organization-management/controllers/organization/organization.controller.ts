@@ -1,4 +1,5 @@
 import { Controller, Get } from '@nestjs/common';
+import { ApiOperation } from '@nestjs/swagger';
 import { OrganizationService } from 'src/organization-management/services/organization/organization.service';
 
 @Controller('organization')
@@ -12,4 +13,5 @@ export class OrganizationController {
     getInfo() {
         return this.organizationService.getInfo()
     }
+
 }

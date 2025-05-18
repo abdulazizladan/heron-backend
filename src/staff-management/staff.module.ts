@@ -10,6 +10,10 @@ import { Education } from './entities/education.entity';
 import { Certification } from './entities/certification.entity';
 import { ContactController } from './controllers/contact/contact.controller';
 import { Employment } from './entities/employment.entity';
+import { Promotion } from './entities/promotion.entity';
+import { GradeLevel } from './entities/grade-level.entity';
+import { GradeLevelHistory } from './entities/grade-level-history.entity';
+import { NextOfKin } from './entities/next-of-kin.entity';
 
 @Module({
   imports: [
@@ -20,7 +24,11 @@ import { Employment } from './entities/employment.entity';
         EmergencyContact, 
         Education,
         Employment, 
-        //Certification
+        Certification,
+        Promotion,
+        GradeLevel,
+        GradeLevelHistory,
+        NextOfKin
       ]
     )
   ],

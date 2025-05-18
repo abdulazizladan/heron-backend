@@ -1,10 +1,10 @@
-import { Column, Entity, ManyToOne, PrimaryColumn, JoinColumn } from "typeorm";
+import { Column, Entity, ManyToOne, PrimaryGeneratedColumn, JoinColumn } from "typeorm";
 import { Staff } from "./staff.entity";
 
 @Entity({name: 'StaffDisciplinaryCase'})
 export class DisciplinaryCase {
-    @PrimaryColumn({})
-    staffId: string;
+    @PrimaryGeneratedColumn({})
+    id: number;
 
     @Column({unique: true})
     caseId: string;
@@ -27,7 +27,7 @@ export class DisciplinaryCase {
     @Column({})
     notes?: string;
 
-    //@ManyToOne(() => Staff, staff => staff.disciplinaryCases)
-    //@JoinColumn({ name: 'staffId', referencedColumnName: 'id' })
-    //staff: Staff;
+    @ManyToOne((type) => Staff, staff => staff.disciplinaryCases)
+    @JoinColumn({ name: 'staffId', referencedColumnName: 'staffId' })
+    staff: Staff;
 }

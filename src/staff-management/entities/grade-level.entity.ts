@@ -7,7 +7,7 @@ export class GradeLevel {
   id: number;
 
   @Column()
-  currentGrade: string;
+  currentGrade: number;
 
   @Column()
   currentStep: number;
@@ -18,16 +18,7 @@ export class GradeLevel {
   @Column()
   effectiveDate: Date;
 
-  @Column('simple-json')
-  history: {
-    grade: string;
-    step: number;
-    salary: number;
-    effectiveDate: Date;
-    approvedBy: string;
-  }[];
-
-  //@OneToOne(() => Staff, staff => staff.gradeLevel)
-  //@JoinColumn({name: 'staffId', referencedColumnName: 'staffId'})
-  //staff: Staff;
+  @OneToOne(() => Staff, staff => staff.gradeLevel)
+  @JoinColumn({name: 'staffId', referencedColumnName: 'staffId'})
+  staff: Staff; 
 }

@@ -1,10 +1,11 @@
 import { Injectable } from '@nestjs/common';
 import { CreateStaffDto } from '../../dto/create-staff.dto';
 import { UpdateStaffDto } from '../../dto/update-staff.dto';
-import { Repository } from 'typeorm';
+import { DeepPartial, Repository } from 'typeorm';
 import { Staff } from '../../entities/staff.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { throwError } from 'rxjs';
+import { ApiOperation } from '@nestjs/swagger';
 
 @Injectable()
 export class StaffService {
@@ -13,10 +14,35 @@ export class StaffService {
 
   }
   
-  create(createStaffDto: CreateStaffDto) {
-    return 'This action adds a new staff';
+  /**
+   * 
+   * @param createStaffDto 
+   * @returns 
+   */
+  @ApiOperation({description: 'Create a new staff record', summary: 'Create a new staff record'})
+  async create(createStaffDto: CreateStaffDto) {
+    try {
+      const staff = this.staffRepository.create(createStaffDto as DeepPartial<Staff>);
+      await this.staffRepository.save(staff);
+      return {
+        success: true,
+        data: staff,
+        message: 'Staff created successfully'
+      }
+    } catch (error) {
+      return {
+        success: false,
+        data: null,
+        message: error.message
+      }
+    }
   }
 
+  /**
+   * 
+   * @returns 
+   */
+  @ApiOperation({description: 'Get all staff records', summary: 'Get all staff records'})
   async findAll() {
     try {
       const staffList = await this.staffRepository.find({});
@@ -35,6 +61,12 @@ export class StaffService {
     
   }
 
+  /**
+   * 
+   * @param id 
+   * @returns 
+   */
+  @ApiOperation({description: 'Get a staff record by ID', summary: 'Get a staff record by ID'})
   async findOne(id: string) {
     try{
       const staff = await this.staffRepository.findOne({
@@ -45,6 +77,11 @@ export class StaffService {
           'contact.address',
           'employment',
           'education',
+          'certifications',
+          'promotions',
+          'gradeLevel',
+          'gradeLevelHistory',
+          'nextOfKin'
         ]
       })
       return {
@@ -61,6 +98,13 @@ export class StaffService {
     }
   }
 
+  /**
+   * 
+   * @param id 
+   * @param updateStaffDto 
+   * @returns 
+   */
+  @ApiOperation({description: 'Update a staff record by ID', summary: 'Update a staff record by ID'})
   async update(id: string, updateStaffDto: UpdateStaffDto) {
     try {
       const staff = await this.staffRepository.findOne({where: {staffId: id}});
@@ -71,7 +115,7 @@ export class StaffService {
           message: 'Staff not found'
         }
       }
-      this.staffRepository.update(id, updateStaffDto);
+      this.staffRepository.update(id, updateStaffDto as DeepPartial<Staff>);
       return {
         success: true,
         data: null,
@@ -86,7 +130,34 @@ export class StaffService {
     }
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} staff`;
+  /**
+   * 
+   * @param id 
+   * @returns 
+   */
+  async remove(id: string) {
+    try {
+      const staff = await this.staffRepository.findOne({where: {staffId: id}});
+      if (!staff) {
+        return {
+          success: false,
+          data: null,
+          message: 'Staff not found'
+        }
+      }
+      await this.staffRepository.delete(id);
+      return {
+        success: true,
+        data: null,
+        message: 'Staff deleted successfully'
+      }
+    }
+    catch (error) {
+      return {
+        success: false,
+        data: null,
+        message: error.message
+      }
+    }
   }
 }
